@@ -19,19 +19,17 @@ jobs:
         # Define the GraphQL mutation query in a variable
         MUTATION_QUERY='mutation {
           addComment(input: {
-            body: \"Hello there \"
+            body: \\"Hello there \\"
           }) {
             clientMutationId
           }
         }'
 
-        echo "{\"query\": \"$MUTATION_QUERY\"}" \ $GRAPHQL_ENDPOINT
-
         # Execute the GraphQL mutation using curl
         response=$(curl -X POST \
                      -H "Authorization: Bearer $AUTH_TOKEN" \
                      -H "Content-Type: application/json" \
-                     -d "{\"query\": \"$MUTATION_QUERY\"}" \
+                     -d "{"query": \"$MUTATION_QUERY\"}" \
                      $GRAPHQL_ENDPOINT)
 
         # Display the response for debugging (optional)
