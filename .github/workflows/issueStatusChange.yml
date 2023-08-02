@@ -1,0 +1,27 @@
+name: Issue Status Change
+on:
+  issues:
+    types: [opened, labeled]
+
+jobs:
+  evaluate_issue:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if the label matches "ProductBoard"
+        id: check_label
+        run: echo "::set-output name=match::${{ contains(github.event.issue.labels.*.name, 'ProductBoard') }}"
+      - name: Update issue status to "Evaluated"
+        if: steps.check_label.outputs.match == 'true'
+        uses: actions/github-script@v4
+        with:
+          script: |
+            const issueNumber = context.payload.issue.number;
+            const projectNumber = 1; 
+            const columnName = "Evaluated"; // Replace with the column name in your project
+            const octokit = github.getOctokit("${{ secrets.PERSONAL_ACCESS_TOKEN }}");
+
+            octokit.projects.createCard({
+              column_id: columnName,
+              content_id: issueNumber,
+              content_type: "Issue"
+            });
