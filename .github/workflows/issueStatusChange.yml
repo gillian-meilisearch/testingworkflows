@@ -12,16 +12,12 @@ jobs:
         run: echo "::set-output name=match::${{ contains(github.event.issue.labels.*.name, 'ProductBoard') }}"
       - name: Update issue status to "Evaluated"
         if: steps.check_label.outputs.match == 'true'
-        uses: actions/github-script@v4
-        with:
-          script: |
-            const issueNumber = context.payload.issue.number;
-            const projectNumber = 1; 
-            const columnName = "Evaluated"; // Replace with the column name in your project
-            const octokit = github.getOctokit("${{ secrets.PERSONAL_ACCESS_TOKEN }}");
+        env:
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        run: |
+          issue_number=${{ github.event.issue.number }}
+          project_number=1 
+          column_name="Evaluated" 
 
-            octokit.projects.createCard({
-              column_id: columnName,
-              content_id: issueNumber,
-              content_type: "Issue"
-            });
+          response=$(curl -X POST -s -H "Authorization: token $GITHUB_TOKEN" -H "Accept: application/vnd.github.v3+json" "https://api.github.com/projects/columns/$column_name/cards" -d "{\"content_id\": $issue_number, \"content_type\": \"Issue\"}")
+          echo "$response"
