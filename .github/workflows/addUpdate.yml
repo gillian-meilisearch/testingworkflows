@@ -15,7 +15,6 @@ jobs:
         with:
           project-url: https://github.com/users/gillian-meilisearch/projects/1
           github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          labeled: bug, needs-triage
           label-operator: OR
 
       - uses: kalgurn/update-project-item-status@main
