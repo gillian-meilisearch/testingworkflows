@@ -29,7 +29,7 @@ jobs:
         response=$(curl -X POST \
                      -H "Authorization: Bearer $AUTH_TOKEN" \
                      -H "Content-Type: application/json" \
-                     -d "{"query": \"$MUTATION_QUERY\"}" \
+                     -d '{"query": \"$MUTATION_QUERY\"}' \
                      $GRAPHQL_ENDPOINT)
 
         # Display the response for debugging (optional)
