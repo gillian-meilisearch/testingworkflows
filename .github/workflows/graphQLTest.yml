@@ -13,7 +13,7 @@ jobs:
     - name: Execute GraphQL Mutation
       run: |
         # Set your GraphQL API endpoint and authentication token (if required)
-        GRAPHQL_ENDPOINT="https://api.example.com/graphql"
+        GRAPHQL_ENDPOINT="https://api.github.com/graphql"
         AUTH_TOKEN="${{ secrets.PERSONAL_ACCESS_TOKEN }}"
 
         # Define the GraphQL mutation query in a variable
