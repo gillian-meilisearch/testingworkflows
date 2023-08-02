@@ -21,7 +21,7 @@ jobs:
         response=$(curl -X POST \
                      -H "Authorization: Bearer $AUTH_TOKEN" \
                      -H "Content-Type: application/json" \
-                     -d '{"query": "mutation { addComment(input: { body: \\"Hello there \\" }) { clientMutationId } }"}' \
+                     -d '{"query": "mutation { addComment(input: { body: \"Hello there \" }) { clientMutationId } }"}' \
                      $GRAPHQL_ENDPOINT)
 
         # Display the response for debugging (optional)
