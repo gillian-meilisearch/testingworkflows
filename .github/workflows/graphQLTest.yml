@@ -18,8 +18,8 @@ jobs:
 
         # Define the GraphQL mutation query in a variable
         MUTATION_QUERY='mutation {
-          addComment(\"input\": {
-            \"body\": \"Hello there\"
+          addComment(input: {
+            body: \"Hello there\"
           }) {
             clientMutationId
           }
