@@ -1,0 +1,36 @@
+name: GraphQL Mutation
+
+on:
+  issues:
+    types:
+      - assigned
+
+jobs:
+  graphql_mutation:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Execute GraphQL Mutation
+      run: |
+        # Set your GraphQL API endpoint and authentication token (if required)
+        GRAPHQL_ENDPOINT="https://api.example.com/graphql"
+        AUTH_TOKEN="${{ secrets.PERSONAL_ACCESS_TOKEN }}"
+
+        # Define the GraphQL mutation query in a variable
+        MUTATION_QUERY='mutation {
+          addComment(input: {
+            body: "Hello there"
+          }) {
+            clientMutationId
+          }
+        }'
+
+        # Execute the GraphQL mutation using curl
+        response=$(curl -X POST \
+                     -H "Authorization: Bearer $AUTH_TOKEN" \
+                     -H "Content-Type: application/json" \
+                     -d "{\"query\": \"$MUTATION_QUERY\"}" \
+                     $GRAPHQL_ENDPOINT)
+
+        # Display the response for debugging (optional)
+        echo "$response"
