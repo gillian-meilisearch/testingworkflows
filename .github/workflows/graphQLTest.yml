@@ -16,16 +16,6 @@ jobs:
         GRAPHQL_ENDPOINT="https://api.github.com/graphql"
         AUTH_TOKEN="${{ secrets.PERSONAL_ACCESS_TOKEN }}"
 
-        # Define the GraphQL mutation query in a variable
-        MUTATION_QUERY='mutation {
-          addComment(input: {
-            body: \\"Hello there \\"
-          }) {
-            clientMutationId
-          }
-        }'
-
-        echo '{"query": \"$MUTATION_QUERY \"}'
 
         # Execute the GraphQL mutation using curl
         response=$(curl -X POST \
