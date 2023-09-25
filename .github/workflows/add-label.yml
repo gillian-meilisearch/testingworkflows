@@ -17,7 +17,7 @@ jobs:
             -X GET "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments" | \
             jq -r '.[].user.login' | \
             sort -u)
-          echo "::set-output name=is_gillian::$(echo $ISSUE_CREATOR | grep -q 'gillian@meilisearch.com'; echo $?)"
+          echo "::set-output name=is_gillian::$(echo $ISSUE_CREATOR | grep -q 'gillian-meilisearch'; echo $?)"
         shell: bash
 
       - name: Add label if created by Gillian
