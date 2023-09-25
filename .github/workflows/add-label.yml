@@ -13,7 +13,7 @@ jobs:
       - name: Check if issue creator is Gillian
         id: check_gillian
         run: |
-          ISSUE_CREATOR=$(curl -s -H "Authorization: token ${{ secrets.PERSONAL_ACCESS_TOKENN }}" \
+          ISSUE_CREATOR=$(curl -s -H "Authorization: token ${{ secrets.PERSONAL_ACCESS_TOKEN }}" \
             -X GET "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments" | \
             jq -r '.[].user.login' | \
             sort -u)
