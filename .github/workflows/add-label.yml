@@ -10,9 +10,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Check GitHub Token
-      run: echo ${{ secrets.WORKFLOW_ACCESS }}
-
+      - name: Check GitHub Token
+        run: echo ${{ secrets.WORKFLOW_ACCESS }}
 
       - name: Check if issue creator is Gillian
         id: check_gillian
