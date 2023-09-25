@@ -13,7 +13,7 @@ jobs:
       - name: Check if issue creator is Gillian
         id: check_gillian
         run: |
-          ISSUE_CREATOR=$(curl -s -H "Authorization: token ${{ secrets.PERSONAL_ACCESS_TOKEN }}" \
+          ISSUE_CREATOR=$(curl -s -H "Authorization: token ${{ secrets.WORKFLOW_ACCESS }}" \
             -X GET "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}" | \
             jq -r '.user.login')
           echo "IS_GILLIAN=$(echo $ISSUE_CREATOR | grep -q 'gillian-meilisearch'; echo $?) >> $GITHUB_ENV"
@@ -23,7 +23,7 @@ jobs:
         if: env.IS_GILLIAN == '0'
         run: |
           echo "Adding 'gillian' label to the issue"
-          curl -s -H "Authorization: token ${{ secrets.PERSONAL_ACCESS_TOKEN }}" \
+          curl -s -H "Authorization: token ${{ secrets.WORKFLOW_ACCESS }}" \
             -X POST "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/labels" \
             -d '["gillian"]'
         shell: bash
