@@ -1,0 +1,30 @@
+name: Add Label to Gillian's Issues
+
+on:
+  issues:
+    types:
+      - opened
+
+jobs:
+  add_label:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check if issue creator is Gillian
+        id: check_gillian
+        run: |
+          ISSUE_CREATOR=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -X GET "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/comments" | \
+            jq -r '.[].user.login' | \
+            sort -u)
+          echo "::set-output name=is_gillian::$(echo $ISSUE_CREATOR | grep -q 'gillian@meilisearch.com'; echo $?)"
+        shell: bash
+
+      - name: Add label if created by Gillian
+        if: steps.check_gillian.outputs.is_gillian == '0'
+        run: |
+          echo "Adding 'gillian' label to the issue"
+          curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -X POST "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.issue.number }}/labels" \
+            -d '["gillian"]'
+        shell: bash
