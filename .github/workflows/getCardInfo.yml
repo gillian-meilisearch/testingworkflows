@@ -25,7 +25,7 @@ jobs:
 
             // Define the issue and project card IDs
             //const issueId = context.payload.issue.id;
-            const cardId = context.payload.issue.project_card.id;
+            //const cardId = context.payload.issue.project_card.id;
 
             console.log('payload', context.payload);
          
