@@ -17,7 +17,7 @@ jobs:
 
             // Set up authentication headers
             const headers = {
-               Authorization: 'Bearer ${{ secrets.GITHUB_TOKEN }}'
+               Authorization: 'Bearer ${{ secrets.GITHUB_TOKEN }}',
               'Accept': 'application/vnd.github.inertia-preview+json'
             };
 
@@ -38,5 +38,3 @@ jobs:
             }).catch(error => {
               console.error('Error updating project card:', error);
             });
-
-            
