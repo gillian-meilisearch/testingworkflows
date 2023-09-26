@@ -6,7 +6,7 @@ on:
     # Only trigger for issues added to the project board
     # Replace <PROJECT_ID> with the ID of your project board
     projects:
-      - '1'
+      - 1
 
 jobs:
   update-card-status:
