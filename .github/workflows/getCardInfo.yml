@@ -8,6 +8,8 @@ jobs:
   updateIssueStatus:
     runs-on: ubuntu-latest
     steps:
+      - name: Install axios
+        run: npm install axios
       - name: Get issue info
         uses: actions/github-script@v4
         with:
