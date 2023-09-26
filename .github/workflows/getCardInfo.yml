@@ -1,0 +1,42 @@
+name: Get card info
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  updateIssueStatus:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get issue info
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const axios = require('axios');
+
+            // Set up authentication headers
+            const headers = {
+               Authorization: 'token ${{ secrets.GITHUB_TOKEN }}'
+              'Accept': 'application/vnd.github.inertia-preview+json'
+            };
+
+            // Define the issue and project card IDs
+            const issueId = context.payload.issue.id;
+            const cardId = context.payload.issue.project_card.id;
+
+            console.log('issueId', issueId)
+            console.log('cardId', cardId)
+
+
+            // Update the project card for the issue
+            axios.get(`https://api.github.com/projects/columns/cards/${cardId}`,{
+              headers
+            }).then(response => {
+              console.log(response.data)
+              console.log('Project card info obtained');
+            }).catch(error => {
+              console.error('Error updating project card:', error);
+            });
+
+            
