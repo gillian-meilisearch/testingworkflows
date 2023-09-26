@@ -1,12 +1,8 @@
 name: Update Card Status
 
 on:
-  issues:
-    types: [opened]
-    # Only trigger for issues added to the project board
-    # Replace <PROJECT_ID> with the ID of your project board
-    projects:
-      - '1'
+  project_card:
+    types: [moved]
 
 jobs:
   update-card-status:
@@ -20,7 +16,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const issueId = context.payload.issue.id;
+            const issueId = context.payload.project_card.content_id;
             const projectId = context.payload.project_card.project_id;
             const mutation = `
               mutation updateCard($issueId: ID!, $projectId: ID!, $newStatus: String!) {
