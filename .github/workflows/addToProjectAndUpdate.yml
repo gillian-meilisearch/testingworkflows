@@ -1,0 +1,51 @@
+name: Add Card to Project and Update Status
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  add-card-and-update-status:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Add card to project
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const issueId = context.payload.issue.id;
+            const mutation = `
+              mutation addCard($issueId: ID!) {
+                addProjectCard(input: {projectColumnId: "1", contentId: $issueId}) {
+                  cardEdge {
+                    node {
+                      id
+                    }
+                  }
+                }
+              }
+            `;
+            const variables = { issueId };
+            const result = await github.graphql(mutation, variables);
+            const cardId = result.data.addProjectCard.cardEdge.node.id;
+            console.log(`Added card with ID ${cardId}`);
+
+      - name: Update card status
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const cardId = context.payload.project_card.id;
+            const mutation = `
+              mutation updateCard($cardId: ID!, $newStatus: String!) {
+                updateProjectCard(input: {id: $cardId, state: $newStatus}) {
+                  clientMutationId
+                }
+              }
+            `;
+            const variables = { cardId, newStatus: 'Evaluated' };
+            const result = await github.graphql(mutation, variables);
+            console.log(result);
