@@ -1,0 +1,34 @@
+name: Update Card Status
+
+on:
+  issues:
+    types: [opened]
+    # Only trigger for issues added to the project board
+    # Replace <PROJECT_ID> with the ID of your project board
+    projects:
+      - '1'
+
+jobs:
+  update-card-status:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Update card status
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const issueId = context.payload.issue.id;
+            const projectId = context.payload.project_card.project_id;
+            const mutation = `
+              mutation updateCard($issueId: ID!, $projectId: ID!, $newStatus: String!) {
+                updateProjectCard(input: {projectColumnId: $projectId, contentId: $issueId, state: $newStatus}) {
+                  clientMutationId
+                }
+              }
+            `;
+            const variables = { issueId, projectId, newStatus: 'Evaluated' };
+            const result = await github.graphql(mutation, variables);
+            console.log(result);
