@@ -24,19 +24,19 @@ jobs:
             };
 
             // Define the issue and project card IDs
-            const issueId = context.payload.issue.id;
+            //const issueId = context.payload.issue.id;
             const cardId = context.payload.issue.project_card.id;
 
-            console.log('issueId', issueId);
-            console.log('cardId', cardId);
+            console.log('payload', context.payload);
+         
 
 
             // Update the project card for the issue
-            axios.get(`https://api.github.com/projects/columns/cards/${cardId}`,{
-              headers
-            }).then(response => {
-              console.log(response.data)
-              console.log('Project card info obtained');
-            }).catch(error => {
-              console.error('Error updating project card:', error);
-            });
+            //axios.get(`https://api.github.com/projects/columns/cards/${cardId}`,{
+              //headers
+            //}).then(response => {
+              //console.log(response.data)
+              //console.log('Project card info obtained');
+            //}).catch(error => {
+              //console.error('Error updating project card:', error);
+            //});
