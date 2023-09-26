@@ -17,7 +17,7 @@ jobs:
 
             // Set up authentication headers
             const headers = {
-               Authorization: 'token ${{ secrets.GITHUB_TOKEN }}'
+               Authorization: 'Bearer ${{ secrets.GITHUB_TOKEN }}'
               'Accept': 'application/vnd.github.inertia-preview+json'
             };
 
@@ -25,8 +25,8 @@ jobs:
             const issueId = context.payload.issue.id;
             const cardId = context.payload.issue.project_card.id;
 
-            console.log('issueId', issueId)
-            console.log('cardId', cardId)
+            console.log('issueId', issueId);
+            console.log('cardId', cardId);
 
 
             // Update the project card for the issue
